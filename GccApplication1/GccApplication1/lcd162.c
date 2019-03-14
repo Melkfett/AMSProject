@@ -32,23 +32,19 @@
 static void waitBusy()
 {
   // Implent maximum delay of a 'transaction'
-  int i;
-  for(i = 0; i < 10; i++)
+  for(int i = 0; i < 10; i++)
 	  _NOP();
 }
 
 static void pulse_E()
 {
-  // Done!
-  int i;
-  
-  for(i = 0; i < 4; i++)
+  for(int i = 0; i < 4; i++)
     _NOP();
 	
   PORTH = PORTH | (1<<6);
   
   
-  for(i = 0; i < 4; i++)
+  for(int i = 0; i < 4; i++)
   _NOP();
   
   PORTH = PORTH & ~(1<<6);
@@ -169,7 +165,8 @@ void LCDDispChar(char ch)
 // Displays the string "str" starting at "current display position"
 void LCDDispString(char* str)
 {
-  // To be implemented
+  while(*str)
+    sendData(*str++);
 }
 
 // Displays the value of integer "i" at "current display position"
@@ -191,31 +188,37 @@ void LCDLoadUDC(unsigned char UDCNo, const unsigned char *UDCTab)
 // "blink" not 0 => the character at the cursor position blinks.
 void LCDOnOffControl(unsigned char cursor, unsigned char blink)
 {
-  // To be implemented
+  unsigned char cmd = 0b00001000;
+
+  if(cursor)
+    cmd |= (1<<1);
+  if(blink)
+    cmd |= 1;
+  sendInstruction(cmd);
 }
 
 // Moves the cursor to the left
 void LCDCursorLeft()
 {
-  // To be implemented
+  sendInstruction(0b00010000);
 }
 
 // Moves the cursor to the right
 void LCDCursorRight()
 {
-  // To be implemented
+  sendInstruction(0b00010100);
 }
 
 // Moves the display text one position to the left
 void LCDShiftLeft()
 {
-  // To be implemented
+  sendInstruction(0b00011000);
 }
 
 // Moves the display text one position to the right
 void LCDShiftRight()
 {
-  // To be implemented
+  sendInstruction(0b00011100);
 }
 
 // Sets the backlight intensity to "percent" (0-100)
