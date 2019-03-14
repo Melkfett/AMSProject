@@ -5,3 +5,4 @@
  *  Author: fenta
  */ 
 
+RTSinit();
