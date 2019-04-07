@@ -4,6 +4,10 @@
  * Created: 14-Mar-19 8:57:47 AM
  *  Author: fenta
  */ 
+
+#ifndef RTSMODULE_H_
+#define RTSMODULE_H_
+
 #include <stdint.h>
 
 typedef enum task_states_t
@@ -27,3 +31,5 @@ typedef struct task
 void RTSInit();
 int8_t RTSAddTask(task_t* task_pointer);
 void RTSRun();
+
+#endif /* RTSMODULE_H_ */

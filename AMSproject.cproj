@@ -126,13 +126,31 @@
     <Folder Include="source" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="include\distanceSafetyModule.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\i2cDriver.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="include\RTSmodule.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\sonarDriver.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="source\distanceSafetyModule.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="source\i2cDriver.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="source\main.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="source\RTSmodule.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="source\sonarDriver.c">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>

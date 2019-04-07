@@ -174,12 +174,6 @@ Disassembly of section .text:
  108:	7b cf       	rjmp	.-266    	; 0x0 <__vectors>
 
 0000010a <main>:
-
-#include <avr/io.h>
-
-
-int main(void)
-{
  10a:	ff cf       	rjmp	.-2      	; 0x10a <main>
 
 0000010c <_exit>:

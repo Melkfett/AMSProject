@@ -10,7 +10,6 @@
 #define Success 0
 #define Error  -1
 
-
 static int16_t tick_countdown;
 
 static task_t* task_queue[MAX_QUEUE_LENGTH];
