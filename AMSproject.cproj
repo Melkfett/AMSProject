@@ -138,6 +138,9 @@
     <Compile Include="include\sonarDriver.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="include\UARTDriver.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="source\distanceSafetyModule.c">
       <SubType>compile</SubType>
     </Compile>
@@ -151,6 +154,9 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="source\sonarDriver.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="source\UARTDriver.c">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>

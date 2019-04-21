@@ -3,27 +3,29 @@ AMSproject.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800200  00800200  00000164  2**0
+  0 .data         00000000  00800200  00800200  000001a2  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         00000110  00000000  00000000  00000054  2**1
+  1 .text         0000014e  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .comment      00000030  00000000  00000000  00000164  2**0
+  2 .comment      00000030  00000000  00000000  000001a2  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000194  2**2
+  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000001d4  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000020  00000000  00000000  000001d4  2**0
+  4 .debug_aranges 00000048  00000000  00000000  00000214  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00000c39  00000000  00000000  000001f4  2**0
+  5 .debug_info   00000d72  00000000  00000000  0000025c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 00000b63  00000000  00000000  00000e2d  2**0
+  6 .debug_abbrev 00000c3a  00000000  00000000  00000fce  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   00000237  00000000  00000000  00001990  2**0
+  7 .debug_line   000003c2  00000000  00000000  00001c08  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000024  00000000  00000000  00001bc8  2**2
+  8 .debug_frame  00000058  00000000  00000000  00001fcc  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    0000050a  00000000  00000000  00001bec  2**0
+  9 .debug_str    0000055f  00000000  00000000  00002024  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_ranges 00000010  00000000  00000000  000020f6  2**0
+ 10 .debug_loc    00000038  00000000  00000000  00002583  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000028  00000000  00000000  000025bb  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -168,16 +170,84 @@ Disassembly of section .text:
  100:	b2 07       	cpc	r27, r18
  102:	e1 f7       	brne	.-8      	; 0xfc <.do_clear_bss_loop>
  104:	02 d0       	rcall	.+4      	; 0x10a <main>
- 106:	02 c0       	rjmp	.+4      	; 0x10c <_exit>
+ 106:	21 c0       	rjmp	.+66     	; 0x14a <_exit>
 
 00000108 <__bad_interrupt>:
  108:	7b cf       	rjmp	.-266    	; 0x0 <__vectors>
 
 0000010a <main>:
- 10a:	ff cf       	rjmp	.-2      	; 0x10a <main>
 
-0000010c <_exit>:
- 10c:	f8 94       	cli
+int main(void)
+{
+    /* Replace with your application code */
 
-0000010e <__stop_program>:
- 10e:	ff cf       	rjmp	.-2      	; 0x10e <__stop_program>
+	UARTSetup();
+ 10a:	07 d0       	rcall	.+14     	; 0x11a <UARTSetup>
+
+	uint8_t msg1 = 'S';
+
+	UARTTransmitByte(msg1);
+ 10c:	83 e5       	ldi	r24, 0x53	; 83
+ 10e:	13 d0       	rcall	.+38     	; 0x136 <UARTTransmitByte>
+
+	uint8_t msg2 = '\0';
+
+	UARTTransmitByte(msg2);
+ 110:	80 e0       	ldi	r24, 0x00	; 0
+ 112:	11 d0       	rcall	.+34     	; 0x136 <UARTTransmitByte>
+
+	UARTTransmitByte(msg1);
+ 114:	83 e5       	ldi	r24, 0x53	; 83
+ 116:	0f d0       	rcall	.+30     	; 0x136 <UARTTransmitByte>
+ 118:	ff cf       	rjmp	.-2      	; 0x118 <main+0xe>
+
+0000011a <UARTSetup>:
+ 11a:	e1 ec       	ldi	r30, 0xC1	; 193
+
+ //TODO: Skal vi have asynkron kommunikation? De har jo ikke samme clock.
+
+ void UARTSetup()
+ {
+	UCSR0B &= 0b11110111;
+ 11c:	f0 e0       	ldi	r31, 0x00	; 0
+ 11e:	80 81       	ld	r24, Z
+ 120:	87 7f       	andi	r24, 0xF7	; 247
+ 122:	80 83       	st	Z, r24
+	UCSR0C = 0b00000110;
+ 124:	86 e0       	ldi	r24, 0x06	; 6
+ 126:	80 93 c2 00 	sts	0x00C2, r24	; 0x8000c2 <__TEXT_REGION_LENGTH__+0x7000c2>
+
+	UBRR0H = 0;
+ 12a:	10 92 c5 00 	sts	0x00C5, r1	; 0x8000c5 <__TEXT_REGION_LENGTH__+0x7000c5>
+	UBRR0L = 103; //Default 9600 bps.
+ 12e:	87 e6       	ldi	r24, 0x67	; 103
+ 130:	80 93 c4 00 	sts	0x00C4, r24	; 0x8000c4 <__TEXT_REGION_LENGTH__+0x7000c4>
+ 134:	08 95       	ret
+
+00000136 <UARTTransmitByte>:
+ }
+
+ int8_t UARTTransmitByte(uint8_t byte)
+ {
+	if((UCSR0A & (1<<UDRE0)) != 0)
+ 136:	90 91 c0 00 	lds	r25, 0x00C0	; 0x8000c0 <__TEXT_REGION_LENGTH__+0x7000c0>
+ 13a:	95 ff       	sbrs	r25, 5
+ 13c:	04 c0       	rjmp	.+8      	; 0x146 <UARTTransmitByte+0x10>
+	{
+		UDR0 = byte;
+ 13e:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7000c6>
+
+		return Success;
+ 142:	80 e0       	ldi	r24, 0x00	; 0
+ 144:	08 95       	ret
+	}
+
+	return Error;
+ 146:	8f ef       	ldi	r24, 0xFF	; 255
+ 148:	08 95       	ret
+
+0000014a <_exit>:
+ 14a:	f8 94       	cli
+
+0000014c <__stop_program>:
+ 14c:	ff cf       	rjmp	.-2      	; 0x14c <__stop_program>
