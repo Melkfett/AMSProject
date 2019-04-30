@@ -10,16 +10,15 @@
 
  #define Success 0
  #define Error  -1
-
- //TODO: Skal vi have asynkron kommunikation? De har jo ikke samme clock.
+ #define XTAL 16000000
 
  void UARTSetup()
  {
-	UCSR0B &= 0b11110111;
+	UCSR0A = 0b00100000;
+	UCSR0B = 0b00011000;
 	UCSR0C = 0b00000110;
 
-	UBRR0H = 0;
-	UBRR0L = 103; //Default 9600 bps.
+	UBRR0 = 103;
  }
 
  int8_t UARTTransmitByte(uint8_t byte)
