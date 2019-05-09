@@ -12,6 +12,12 @@
 //Clock hastighed???? Skal nok indstilles.
 //Init function?
 
+void i2cInit() {
+    PRR0 &= ~(1<<PRTWI);
+    TWSR = 0b00000000;
+    TWBR = 152;
+}
+
 void i2cStart() //TWSTA SKAL IFØLGE DATASHEET CLEARES AF OS???? DET GØR VI INGEN STEDER.
 {
 	TWCR = (1<<TWINT) | (1<<TWSTA) | (1<<TWEN); //Send start condition.
