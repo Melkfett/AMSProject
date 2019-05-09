@@ -23,7 +23,7 @@ typedef enum task_states_t
 typedef struct task
 {
 	int8_t task_id;
-	int16_t ticks;
+	int32_t ticks;
 	void (*task_cbf)(void);
 	int8_t task_state;
 } task_t;

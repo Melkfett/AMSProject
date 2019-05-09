@@ -12,18 +12,21 @@
 #define Success 0
 #define Error  -1
 
-static int16_t tick_countdown;
-static int8_t RTSTaskState;
+static int32_t tick_countdown = 0;
+static volatile task_states_t RTSTaskState = Idle;
 
-static task_t* task_queue[MAX_QUEUE_LENGTH];
-static int8_t crt_queue_size = 0;
+static volatile task_t* task_queue[MAX_QUEUE_LENGTH];
+static volatile int8_t crt_queue_size = 0;
 
 ISR(TIMER1_COMPA_vect)
 {
-	UARTTransmitByte('I');
+	
 	/*check if the next task should be scheduled*/
 	if (tick_countdown == 0)
+	{
 		RTSTaskState = Timeout;
+		//UARTTransmitByte('I');
+	}
 
 	/*decrement the tick counter if still positive*/
 	if(tick_countdown > 0)
@@ -32,8 +35,9 @@ ISR(TIMER1_COMPA_vect)
 }
 
 //internal helper function.
-static int8_t waitForTask(task_t* task)
+static int8_t waitForTask(volatile task_t* task)
 {
+	//UARTTransmitByte('H');
 	if(RTSTaskState == Timeout)
 	{
 		//Task has taken too long!
@@ -44,12 +48,12 @@ static int8_t waitForTask(task_t* task)
 	
 	//Avoid infinite loop lockup.
 	int64_t cnt;
-	for(cnt = 0; cnt < 50000; cnt++)
+	for(cnt = 0; cnt < INT64_MAX; cnt++)
 	{
 		if(RTSTaskState == Timeout)
 		{
 			task->task_state = Finished;
-			
+			//UARTTransmitByte('T');	
 			return Success;
 		}
 	}
@@ -59,11 +63,12 @@ static int8_t waitForTask(task_t* task)
 	return Error;
 }
 
-static void RTSRunTask(task_t* task)
+static void RTSRunTask(volatile task_t* task)
 {
 	//Run for number of ticks corresponding to task.
 	tick_countdown = task->ticks;
 	task->task_state = Running;
+	RTSTaskState = Running;
 	
 	task->task_cbf();
 	
@@ -72,14 +77,12 @@ static void RTSRunTask(task_t* task)
 
 void RTSInit()
 {
-	PRR0 &= 0b11110111; //Enable Timer1.
-	TCCR1A &= 0b11111100; //Put the timer in clear timer on compare match mode.
-	TCCR1B |= 0b00001101; //Prescale counting clock to 1/1024.
-	TCCR1B &= 0b11101101;
+	TCCR1A = 0b00000000; //Put the timer in clear timer on compare match mode.
+	TCCR1B = 0b00001010; //Prescale counting clock to 1/8.
+	TIMSK1 |= (1<<OCIE1A);
+	OCR1A = 2000;
 	
-	OCR1A = 16625;
-	
-	//Vi vil nu have 1000 ticks i sekundet da 16MHz/(1024*1000)-1 = 16625.
+	//Vi vil nu have 1000 ticks i sekundet da hz = 16MHz/8(OCRA) så ocra = ca 2000
 	
 	//Da clocken er 16 Mhz ønskes en tick til tick tid på 100 us. (1600 operationer pr. tick)
 
@@ -94,7 +97,6 @@ int8_t RTSAddTask(task_t* task_pointer)
 	task_pointer->task_id = crt_queue_size;
 	task_pointer->task_state = Idle;
 	crt_queue_size++;
-	
 	
 	return Success;
 }
