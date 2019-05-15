@@ -11,6 +11,7 @@
 
 void sonarRead(uint16_t* buf);
 void sonarDoRangeCheckNow();
+uint8_t sonarIsReady();
 
 
 

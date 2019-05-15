@@ -13,7 +13,7 @@ static uint16_t lastReading = 0;
 
 void runDistanceModule()
 {
-	if(1) //TODO: Implement check for ongoing reading. (The thingie pin)
+	if(sonarIsReady()) //check for ongoing reading. (The thingie pin)
 	{
 		switch(alternator)
 		{

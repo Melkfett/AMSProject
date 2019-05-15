@@ -35,3 +35,10 @@ void sonarDoRangeCheckNow()
 		i2cStop();
 	}
 }
+
+uint8_t sonarIsReady()
+{
+	//TODO: Check thingie pin to check for ongoing reading! 
+	
+	return 1;
+}
