@@ -46,12 +46,17 @@ float readTemp() {
 	int16_t digitalTemp;
 
 	writePointerRegister(TEMP_REGISTER); //Write to the Pointer Register with the Temperature address
-	readByte[0] = readPointerRegister(0);
+	readByte[0] = readPointerRegister(0); //Receive temperature in two bytes
 	readByte[1] = readPointerRegister(1);
 
-	//Check for 13 bit mode
-	if(readByte[1] & 0x01) {
+	// //Check for 13 bit mode
+	// if(readByte[1] & 0x01) {
 
+	// }
+
+	digitalTemp = ((readByte[1] << 4) | (readByte[0] >> 4)); //Bitshifting because the received bytes are not formatted as digital temperature
+	if(digitalTemp > 7FF) { //Check if temperature is negative
+		digitalTemp |= 0xF000
 	}
 
 
