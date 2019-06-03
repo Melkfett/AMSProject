@@ -10,5 +10,6 @@
 #define DISTANCESAFETYMODULE_H_
 
 void runDistanceModule();
+uint16_t exportReading();
 
 #endif /* DISTANCESAFETYMODULE_H_ */

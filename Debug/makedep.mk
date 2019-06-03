@@ -4,7 +4,11 @@
 
 source\distanceSafetyModule.c
 
+source\i2c.c
+
 source\i2cDriver.c
+
+source\lm75.c
 
 source\main.c
 

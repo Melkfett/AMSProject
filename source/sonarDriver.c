@@ -9,16 +9,16 @@
 
 #include "../include/i2cDriver.h"
 #include "../include/sonarDriver.h"
+#include "../include/UARTDriver.h"
 
 void sonarRead(uint16_t* buf)
 {
 	uint8_t temp[2] = {0};
-
 	i2cStart();
-	i2cSend(225); //CHECK TO SEE IF START WAS SENT??
+	i2cWrite(225);
 	i2cReceive(temp, 2);
 	i2cStop();
-		
+
 	*buf = (temp[0]<<8) | temp[1];
 
 	//TODO: Husk at checke ny data io pin!!!(Eller bare bede den læse hver anden gang? Eller begge? Nok begge.
@@ -27,13 +27,10 @@ void sonarRead(uint16_t* buf)
 
 void sonarDoRangeCheckNow()
 {
-	if(1 == 1)//SØRG FOR AT CHECKE IGANGVÆRENDE LÆSNING PIN!!!
-	{
 		i2cStart();
-		i2cSend(224); //CHECK TO SEE IF START WAS SENT??
-		i2cSend(81);  //Range check command byte.
+		i2cWrite(224); //CHECK TO SEE IF START WAS SENT??
+		i2cWrite(81);  //Range check command byte.
 		i2cStop();
-	}
 }
 
 uint8_t sonarIsReady()

@@ -129,7 +129,13 @@
     <Compile Include="include\distanceSafetyModule.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="include\i2c.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="include\i2cDriver.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\lm75.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="include\RTSmodule.h">
@@ -144,7 +150,13 @@
     <Compile Include="source\distanceSafetyModule.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="source\i2c.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="source\i2cDriver.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="source\lm75.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="source\main.c">

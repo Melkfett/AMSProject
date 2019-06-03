@@ -10,9 +10,10 @@
 
 #include <stdint.h>
 
+void i2cInit();
 void i2cStart();
 void i2cStop();
-void i2cSend(uint8_t buf);
+void i2cWrite(uint8_t buf);
 void i2cReceive(uint8_t* buf, uint8_t cnt);
 
 

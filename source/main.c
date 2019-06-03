@@ -12,6 +12,10 @@
 #include <util/delay.h>
 #include "../include/UARTDriver.h"
 #include "../include/RTSmodule.h"
+#include "../include/distanceSafetyModule.h"
+#include "../include/lm75.h"
+#include "../include/i2cDriver.h"
+#include "../include/sonarDriver.h"
 
 void testfunc1()
 {
@@ -23,21 +27,39 @@ void testfunc2()
 	UARTTransmitByte('A');
 }
 
+void printReading()
+{
+	//uint8_t temp = (exportReading()>>8);
+	//UARTTransmitByte(temp);
+	UARTTransmitByte('A');
+}
+
 int main(void)
 {
     /* Replace with your application code */
 	UARTSetup();
+	i2cInit();
 	RTSInit();
+
+	task_t runSonar;
+	runSonar.task_cbf = runDistanceModule;
+	runSonar.ticks = 500;
+	RTSAddTask(&runSonar);
 	
-	task_t test_task1;
-	test_task1.task_cbf = testfunc1;
-	test_task1.ticks = 1000;
-	RTSAddTask(&test_task1);
+	task_t printReadingTask;
+	printReadingTask.task_cbf = printReading;
+	printReadingTask.ticks = 500;
+	RTSAddTask(&printReadingTask);
 	
-	task_t test_task2;
-	test_task2.task_cbf = testfunc2;
-	test_task2.ticks = 1000;
-	RTSAddTask(&test_task2);
+	/*
+	
+	while(1)
+	{
+		_delay_ms(2100);
+		sonarDoRangeCheckNow();
+		
+	}
+	*/
 	
 	_delay_ms(1000);
 	sei();
@@ -45,19 +67,6 @@ int main(void)
 	
 	while (1)
 	{
-
-	_delay_ms(10000);
-
-	uint8_t msg1 = 'A';
-
-	UARTTransmitByte(msg1);
-
-	uint8_t msg2 = '\n';
-
-	UARTTransmitByte(msg2);
-
-	UARTTransmitByte(msg1);
-
     }
 }
 

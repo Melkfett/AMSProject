@@ -40,7 +40,9 @@ SUBDIRS :=  \
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
 ../source/distanceSafetyModule.c \
+../source/i2c.c \
 ../source/i2cDriver.c \
+../source/lm75.c \
 ../source/main.c \
 ../source/RTSmodule.c \
 ../source/sonarDriver.c \
@@ -55,7 +57,9 @@ ASM_SRCS +=
 
 OBJS +=  \
 source/distanceSafetyModule.o \
+source/i2c.o \
 source/i2cDriver.o \
+source/lm75.o \
 source/main.o \
 source/RTSmodule.o \
 source/sonarDriver.o \
@@ -63,7 +67,9 @@ source/UARTDriver.o
 
 OBJS_AS_ARGS +=  \
 source/distanceSafetyModule.o \
+source/i2c.o \
 source/i2cDriver.o \
+source/lm75.o \
 source/main.o \
 source/RTSmodule.o \
 source/sonarDriver.o \
@@ -71,7 +77,9 @@ source/UARTDriver.o
 
 C_DEPS +=  \
 source/distanceSafetyModule.d \
+source/i2c.d \
 source/i2cDriver.d \
+source/lm75.d \
 source/main.d \
 source/RTSmodule.d \
 source/sonarDriver.d \
@@ -79,7 +87,9 @@ source/UARTDriver.d
 
 C_DEPS_AS_ARGS +=  \
 source/distanceSafetyModule.d \
+source/i2c.d \
 source/i2cDriver.d \
+source/lm75.d \
 source/main.d \
 source/RTSmodule.d \
 source/sonarDriver.d \
@@ -106,7 +116,21 @@ source/distanceSafetyModule.o: ../source/distanceSafetyModule.c
 	@echo Finished building: $<
 	
 
+source/i2c.o: ../source/i2c.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.209\include"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.209\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
 source/i2cDriver.o: ../source/i2cDriver.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.209\include"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.209\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+source/lm75.o: ../source/lm75.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.209\include"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.209\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
