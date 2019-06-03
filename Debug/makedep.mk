@@ -16,5 +16,7 @@ source\RTSmodule.c
 
 source\sonarDriver.c
 
+source\tmp102drv.c
+
 source\UARTDriver.c
 
