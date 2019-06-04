@@ -23,12 +23,9 @@
 
  int8_t UARTTransmitByte(uint8_t byte)
  {
-	if((UCSR0A & (1<<UDRE0)) != 0)
-	{
-		UDR0 = byte;
+	while((UCSR0A & (1<<UDRE0)) == 0);
 
-		return Success;
-	}
+	UDR0 = byte;
 
-	return Error;
+	return Success;
  }

@@ -5,16 +5,17 @@
  *  Author: frederik
  */ 
 
+#include <stdlib.h>
 #include <stdint.h>
 #include "../include/sonarDriver.h"
+#include "../include/UARTDriver.h"
+
 
 static uint8_t alternator = 0;
 static uint16_t lastReading = 0;
 
 void runDistanceModule()
 {
-	
-	//if(sonarIsReady()) //check for ongoing reading. (The thingie pin)
 	{
 		switch(alternator)
 		{
@@ -23,6 +24,23 @@ void runDistanceModule()
 				break;
 			case 1 :
 				sonarRead(&lastReading);
+				
+				int16_t temp = (int16_t)lastReading;
+					
+				char buffer[13] = "Distance: ";
+				uint8_t i = 0;
+				
+				itoa((int)temp, buffer+10, 10);
+				buffer[13] = 0;
+				if(temp < 100)
+					buffer[13] = 0;				
+				
+				for(i = 0; i<13; i++)
+				{
+					UARTTransmitByte(buffer[i]);
+				}
+					UARTTransmitByte('\n');
+				
 				break;
 			default :
 				break;
@@ -34,7 +52,7 @@ void runDistanceModule()
 	}
 }
 
-//This function is used to export the last reading. Useful for testing.
+//This function is used to export the last reading. Useful for testing or future modules.
 uint16_t exportReading()
 {
 	return lastReading;

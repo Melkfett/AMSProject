@@ -49,8 +49,6 @@ void i2cReceive(uint8_t* buf, uint8_t cnt)
 	{
 		TWCR = (1<<TWINT) | (1<<TWEN) | (1<<TWEA); //Start read and generate ack.
 		while((TWCR & (1<<TWINT)) == 0); //Wait for TWINT to be set; indicating instruction completed.
-		{
-		}
 		*temp = TWDR;
 		temp++;
 		cnt_temp--;

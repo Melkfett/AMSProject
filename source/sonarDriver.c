@@ -14,6 +14,8 @@
 void sonarRead(uint16_t* buf)
 {
 	uint8_t temp[2] = {0};
+	
+		
 	i2cStart();
 	i2cWrite(225);
 	i2cReceive(temp, 2);
@@ -21,14 +23,14 @@ void sonarRead(uint16_t* buf)
 
 	*buf = (temp[0]<<8) | temp[1];
 
-	//TODO: Husk at checke ny data io pin!!!(Eller bare bede den læse hver anden gang? Eller begge? Nok begge.
-	//TODO: Husk at sensoren også bruger tid på at starte op (Og sender på den pin!)
+	
+
 }
 
 void sonarDoRangeCheckNow()
 {
 		i2cStart();
-		i2cWrite(224); //CHECK TO SEE IF START WAS SENT??
+		i2cWrite(224);
 		i2cWrite(81);  //Range check command byte.
 		i2cStop();
 }

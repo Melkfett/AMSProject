@@ -18,9 +18,10 @@ source/main.d source/main.o: ../source/main.c \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stddef.h \
  ../source/../include/UARTDriver.h ../source/../include/RTSmodule.h \
- ../source/../include/distanceSafetyModule.h ../source/../include/lm75.h \
+ ../source/../include/distanceSafetyModule.h \
  ../source/../include/i2cDriver.h ../source/../include/sonarDriver.h \
- ../source/../include/tmp102drv.h
+ ../source/../include/tmp102drv.h \
+ ../source/../include/temperatureModule.h
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h:
 
@@ -64,10 +65,10 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\
 
 ../source/../include/distanceSafetyModule.h:
 
-../source/../include/lm75.h:
-
 ../source/../include/i2cDriver.h:
 
 ../source/../include/sonarDriver.h:
 
 ../source/../include/tmp102drv.h:
+
+../source/../include/temperatureModule.h:
